@@ -7,32 +7,41 @@ fastify.get("/", async (_request: any, reply: any) => {
   const projectId = "prj_id";
   const suppliers = await getData(projectId);
   const header = ["Id", "SupplierName"];
-  const data = convertToExcelData(suppliers, header);
-  const buffer = createExcelFile(data);
+  const data = convertToExcelData(transformSupplier, suppliers, header);
+  const buffer = createExcelFile(data, data);
 
   reply.header("Content-Disposition", "attachment;filename=supplies.xlsx");
   reply.send(buffer);
 });
 
-// function transformSupplier(supplier: Supplier): any[] {
-//   return [
+// Transform function to determine how to map supplier to a row in excel
+function transformSupplier(supplier: Supplier): any[] {
+  return [supplier.id, supplier.name];
+}
 
-//   ]
-// }
-
-function convertToExcelData(suppliers: Supplier[], header: string[]) {
-  return suppliers.reduce(
-    (acc: any[][], sup: Supplier) => {
-      acc.push([sup.id, sup.name]);
+// Generic function which will take an array of objects and
+// convert them to rows for excel file using supplied transform function
+function convertToExcelData<T>(
+  transformFn: (sup: T) => any[],
+  items: T[],
+  header: string[]
+) {
+  return items.reduce(
+    (acc: any[][], item: T) => {
+      acc.push(transformFn(item));
       return acc;
     },
     [header]
   );
 }
 
-function createExcelFile(data: any[][]) {
-  console.log("WRITING TO EXCEL", data);
-  return xlsx.build([{ name: "Nodes", data: data }]);
+// Creates In-memory excel file with data provided
+function createExcelFile(suppliers: any[][], edges: any[][]) {
+  console.debug("WRITING TO EXCEL", suppliers);
+  return xlsx.build([
+    { name: "Nodes", data: suppliers },
+    { name: "Edges", data: edges },
+  ]);
 }
 
 //
