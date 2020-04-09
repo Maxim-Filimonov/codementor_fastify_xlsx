@@ -6,16 +6,33 @@ import xlsx from "node-xlsx";
 fastify.get("/", async (_request: any, reply: any) => {
   const projectId = "prj_id";
   const suppliers = await getData(projectId);
-  const data = suppliers.map((sup: Supplier) => [sup.id, sup.name]);
-  console.log("DATA:", data);
-  const buffer = createExcel(data);
+  const header = ["Id", "SupplierName"];
+  const data = convertToExcelData(suppliers, header);
+  const buffer = createExcelFile(data);
 
   reply.header("Content-Disposition", "attachment;filename=supplies.xlsx");
   reply.send(buffer);
 });
 
-function createExcel(data: any) {
-  return xlsx.build([{ name: "Nodes", data }]);
+// function transformSupplier(supplier: Supplier): any[] {
+//   return [
+
+//   ]
+// }
+
+function convertToExcelData(suppliers: Supplier[], header: string[]) {
+  return suppliers.reduce(
+    (acc: any[][], sup: Supplier) => {
+      acc.push([sup.id, sup.name]);
+      return acc;
+    },
+    [header]
+  );
+}
+
+function createExcelFile(data: any[][]) {
+  console.log("WRITING TO EXCEL", data);
+  return xlsx.build([{ name: "Nodes", data: data }]);
 }
 
 //
