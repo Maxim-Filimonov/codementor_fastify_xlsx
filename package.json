@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "build": "tsc",
-    "prestart": "build",
+    "prestart": "yarn build",
     "start": "nodemon ./dist/server.js"
   },
   "main": "index.js",
