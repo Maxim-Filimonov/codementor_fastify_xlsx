@@ -10,7 +10,8 @@
   "license": "MIT",
   "dependencies": {
     "fastify": "^2.13.0",
-    "node-xlsx": "^0.15.0"
+    "node-xlsx": "^0.15.0",
+    "typescript": "^3.8.3"
   },
   "devDependencies": {
     "@types/node": "^13.11.1",
