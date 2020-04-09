@@ -44,11 +44,11 @@ function createExcelFile(suppliers: any[][], edges: any[][]) {
   ]);
 }
 
-//
 type Supplier = {
   id: string;
   name: string;
 };
+// getting mock data
 function getData(projectId: string): Promise<Supplier[]> {
   return Promise.resolve([
     {
