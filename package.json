@@ -2,7 +2,7 @@
   "name": "codementor_fastify_sandbox",
   "version": "1.0.0",
   "scripts": {
-    "build": "tsc",
+    "build": "yarn run tsc",
     "prestart": "yarn build",
     "start": "nodemon ./dist/server.js"
   },
