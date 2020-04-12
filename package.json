@@ -4,7 +4,8 @@
   "scripts": {
     "build": "yarn run tsc",
     "prestart": "yarn build",
-    "start": "nodemon ./dist/server.js"
+    "start": "nodemon ./dist/server.js",
+    "test": "jest"
   },
   "main": "index.js",
   "license": "MIT",
@@ -14,8 +15,11 @@
     "typescript": "^3.8.3"
   },
   "devDependencies": {
+    "@types/jest": "^25.2.1",
     "@types/node": "^13.11.1",
     "@types/node-xlsx": "^0.15.0",
-    "nodemon": "^2.0.3"
+    "jest": "^25.3.0",
+    "nodemon": "^2.0.3",
+    "ts-jest": "^25.3.1"
   }
 }
